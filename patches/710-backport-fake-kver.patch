@@ -1,34 +1,26 @@
 --- a/os_dep/linux/ioctl_cfg80211.c
 +++ b/os_dep/linux/ioctl_cfg80211.c
-@@ -23,6 +23,14 @@
+@@ -23,8 +23,15 @@
  
  #ifdef CONFIG_IOCTL_CFG80211
  
-+#include <rtw_wifi_regd.h>
-+
 +#ifdef BACKPORT
 +#pragma push_macro("LINUX_VERSION_CODE")
 +#undef LINUX_VERSION_CODE
-+#define LINUX_VERSION_CODE KERNEL_VERSION(4,6,0)
++#define LINUX_VERSION_CODE KERNEL_VERSION(4,8,0)
 +#endif
 +
- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0))
- #define STATION_INFO_SIGNAL		BIT(NL80211_STA_INFO_SIGNAL)
- #define STATION_INFO_TX_BITRATE		BIT(NL80211_STA_INFO_TX_BITRATE)
-@@ -31,8 +39,6 @@
- #define STATION_INFO_ASSOC_REQ_IES	0
- #endif /* Linux kernel >= 4.0.0 */
+ #include <rtw_wifi_regd.h>
  
--#include <rtw_wifi_regd.h>
--
++
  #define RTW_MAX_MGMT_TX_CNT (8)
- #define RTW_MAX_MGMT_TX_MS_GAS (500)
  
-@@ -6951,5 +6957,8 @@ void rtw_cfg80211_dev_res_unregister(str
- #endif
+ #define RTW_SCAN_IE_LEN_MAX      2304
+@@ -6435,5 +6442,8 @@ void rtw_wdev_unregister(struct wireless
+ 	wiphy_unregister(wdev->wiphy);
  }
  
--#endif /* CONFIG_IOCTL_CFG80211 */
+-#endif //CONFIG_IOCTL_CFG80211
 +#ifdef BACKPORT
 +#pragma pop_macro("LINUX_VERSION_CODE")
 +#endif
@@ -43,13 +35,13 @@
 +#ifdef BACKPORT
 +#pragma push_macro("LINUX_VERSION_CODE")
 +#undef LINUX_VERSION_CODE
-+#define LINUX_VERSION_CODE KERNEL_VERSION(4,6,0)
++#define LINUX_VERSION_CODE KERNEL_VERSION(4,8,0)
 +#endif
 +
  #ifdef DBG_MEM_ALLOC
  extern bool match_mstat_sniff_rules(const enum mstat_f flags, const size_t size);
- struct sk_buff *dbg_rtw_cfg80211_vendor_event_alloc(struct wiphy *wiphy, int len, int event_id, gfp_t gfp
-@@ -1336,5 +1342,9 @@ int rtw_cfgvendor_detach(struct wiphy *w
+ struct sk_buff * dbg_rtw_cfg80211_vendor_event_alloc(struct wiphy *wiphy, int len, int event_id, gfp_t gfp
+@@ -1335,5 +1341,9 @@ int rtw_cfgvendor_detach(struct wiphy *w
  }
  #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)) || defined(RTW_VENDOR_EXT_SUPPORT) */
  
@@ -58,4 +50,19 @@
 +#endif
 +
  #endif /* CONFIG_IOCTL_CFG80211 */
+ 
+--- a/include/rtw_wifi_regd.h
++++ b/include/rtw_wifi_regd.h
+@@ -22,12 +22,10 @@ enum country_code_type_t {
+ int rtw_regd_init(_adapter *padapter);
+ void rtw_reg_notify_by_driver(_adapter *adapter);
+ 
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 7, 0))
+ #define ieee80211_band nl80211_band
+ #define IEEE80211_BAND_2GHZ NL80211_BAND_2GHZ
+ #define IEEE80211_BAND_5GHZ NL80211_BAND_5GHZ
+ #define IEEE80211_NUM_BANDS NUM_NL80211_BANDS
+-#endif
+ 
+ #endif /* __RTW_WIFI_REGD_H__ */
  

@@ -1,6 +1,6 @@
 --- a/core/rtw_mlme_ext.c
 +++ b/core/rtw_mlme_ext.c
-@@ -11892,7 +11892,7 @@ static void rtw_mlmeext_disconnect(_adap
+@@ -11636,7 +11636,7 @@ static void rtw_mlmeext_disconnect(_adap
  
  	//set_opmode_cmd(padapter, infra_client_with_mlme);
  

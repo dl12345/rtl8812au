@@ -1,0 +1,11 @@
+--- a/core/efuse/rtw_efuse.c
++++ b/core/efuse/rtw_efuse.c
+@@ -838,7 +838,7 @@ u8 rtw_efuse_file_read(PADAPTER padapter
+ 		DBG_871X(" %s ,filepatch %s , FAIL %d \n",__func__,filepatch,rtStatus);
+ 		return _FALSE;
+ 	}
+-	_rtw_mfree(ptmpbuf,2048);
++	rtw_mfree(ptmpbuf,2048);
+ 	DBG_871X(" %s ,filepatch %s , done %d \n",__func__,filepatch,rtStatus);
+ 	return _TRUE;
+ }

@@ -1,6 +1,6 @@
 --- a/core/rtw_sta_mgt.c
 +++ b/core/rtw_sta_mgt.c
-@@ -336,10 +336,14 @@ _func_enter_;
+@@ -335,10 +335,14 @@ _func_enter_;
  
  	//_enter_critical_bh(&(pfree_sta_queue->lock), &irqL);
  	_enter_critical_bh(&(pstapriv->sta_hash_lock), &irqL2);
